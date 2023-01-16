@@ -1,4 +1,4 @@
-# Quiz Application
+# Composant Qcm type 1
 
 Ce script configure une application de quiz en utilisant Vue.js. L'application a une liste de questions, chacune avec plusieurs options et une réponse correcte. L'utilisateur peut sélectionner une option pour chaque question, et l'application suivra si l'option sélectionnée par l'utilisateur est correcte.
 
