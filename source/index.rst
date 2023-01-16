@@ -15,7 +15,6 @@ Création d’un composant web capable de générer des quiz et autres exercices
     chapitre-02.md
     chapitre-03.md
     chapitre-04.md
-    todo.rst
 
 ..  toctree::
     :maxdepth: 2
