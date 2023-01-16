@@ -3,8 +3,8 @@
     You can adapt this file completely to your liking, but it should at least
     contain the root `toctree` directive.
 
-Titre du travail de maturité
-============================
+Création d’un composant web capable de générer des quiz et autres exercices éducatifs
+=====================================================================================
 
 ..  toctree::
     :maxdepth: 2
@@ -13,6 +13,8 @@ Titre du travail de maturité
     introduction.md
     chapitre-01.md
     chapitre-02.md
+    chapitre-03.md
+    chapitre-04.md
     todo.rst
 
 ..  toctree::
