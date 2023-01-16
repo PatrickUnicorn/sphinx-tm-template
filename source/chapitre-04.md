@@ -4,8 +4,8 @@ Ce composant Vue.js permet de créer un texte dont l'on doit remplir les blancs.
 
 ## Propriétés
 
--`text`: cette propriété contient le texte du quiz avec des espaces vides marqués par des chaînes de caractères comme ___1___, ___2___, etc.
--`blanks`: cette propriété contient une liste d'objets qui décrivent les espaces vides dans le texte. Chaque objet contient une propriété "label" pour l'étiquette du champ de saisie correspondant, et une propriété "answer" pour stocker la réponse de l'utilisateur.
+- `text`: cette propriété contient le texte du quiz avec des espaces vides marqués par des chaînes de caractères comme ___1___, ___2___, etc.
+- `blanks`: cette propriété contient une liste d'objets qui décrivent les espaces vides dans le texte. Chaque objet contient une propriété "label" pour l'étiquette du champ de saisie correspondant, et une propriété "answer" pour stocker la réponse de l'utilisateur.
 
 ## Computed properties
 
