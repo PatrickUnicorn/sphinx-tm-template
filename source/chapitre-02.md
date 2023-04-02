@@ -1,4 +1,4 @@
-# Formulaire de connexion Admin ou simple utilisateur
+# Composant LoginForm
 
 Le composant est divisé en trois parties principales :
 

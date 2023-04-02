@@ -1,4 +1,4 @@
-# Composant Vue.js du gestionnaire de questions
+# Composant QuestionManager
 
 Le composant est divisé en trois parties principales :
 

@@ -1,6 +1,6 @@
 # Composant Quiz
 
-Ce composant gère l'affichage et la logique de l'ensemble du quiz, y compris l'affichage des questions, des médias, des réponses possibles, des résultats et des fonctionnalités d'administration.
+Ce composant gère l'affichage et la logique de l'ensemble du quiz, y compris l'affichage des questions, des médias, des réponses possibles, des résultats et des fonctionnalités d'administration. Il est composé, en plus de lui-même, de deux autres composants séparés qui rajoutent des fonctionnalités au composant parent.
 
 ## Template
 
@@ -182,13 +182,9 @@ Ce composant gère l'affichage et la logique de l'ensemble du quiz, y compris l'
 
 - `<login-form>`: Composant pour gérer la connexion en tant qu'utilisateur ou administrateur.
 - `<div class="quiz">`: Conteneur pour l'affichage des questions du quiz, visible uniquement lorsque le quiz est actif et n'est pas terminé.
-  - `<div v-for="question in questions" :key="question.id">`: Boucle sur chaque question et crée un conteneur pour l'affichage de la question, des médias associés et des réponses possibles.
+  - `<div v-for="question in questions" :key="question.id">`: crée une boucle pour chaque question et crée un conteneur pour l'affichage de la question, des médias associés et des réponses possibles.
     - `<div v-if="question.media.type === 'image'">`ou `<div v-else-if="question.media.type === 'video'"`: Conteneurs pour les médias associés à la question (image ou vidéo).
     - `<div class="guesses-column">`: Conteneur pour les réponses possibles de la question.
-      - `<label>`: Étiquette pour chaque réponse possible.
-        - `<input type="radio">`: Bouton radio pour sélectionner une réponse.
-    - `<div>`: Conteneur pour afficher la réponse sélectionnée par l'utilisateur.
-  - `<button @click="submitQuiz">`: Bouton pour soumettre le quiz.
 - `<div v-if="isUser">`: Conteneur pour les actions de l'utilisateur (commencer le quiz).
 - `<div v-if="isAdmin">`: Conteneur pour les actions de l'administrateur (gérer les questions, commencer le quiz).
   - `<button v-if="!quizActive" @click="toggleQuestionManager">`: Bouton pour afficher le gestionnaire de questions.

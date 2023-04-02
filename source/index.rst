@@ -18,7 +18,10 @@ Création de composants Web capables de créer des quiz intéractifs et vidéo-l
     chapitre-05.md
     chapitre-06.md
     declaration-honneur.md
-
+    sidebar.md
+    Qcm1.md
+    Qcm2.md
+    FillInTheGap.md
 
 
 Indices and tables

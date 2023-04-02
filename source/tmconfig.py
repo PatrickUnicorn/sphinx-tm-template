@@ -1,9 +1,11 @@
-class TMConfig:
+class DocumentInfos:
 
-    title = u'Création d’un composant web capable de générer des quiz et autres exercices éducatifs '
+    title = u'Création de composants Web capables de créer des quiz intéractifs et vidéo-ludiques'
     first_name = 'Patrick'
     last_name = 'Oliveira Alves'
+    address = u'Rue des Agges 46, 1635 La Tour-de-trême'
     author = f'{first_name} {last_name}'
+    the_date = f'Le 2 avril 2023'
     year = u'2023'
     month = u'Avril'
     seminary_title = u'Développement Web'
@@ -14,5 +16,4 @@ class TMConfig:
     @classmethod
     def date(cls):
         return cls.month + " " + cls.year
-
-tmconfig = TMConfig()
+tmconfig = DocumentInfos()
