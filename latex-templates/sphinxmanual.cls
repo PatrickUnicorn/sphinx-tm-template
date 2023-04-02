@@ -72,7 +72,7 @@
         \par}
       \vfill\vfill
       {\large
-       \@date \par
+       \thedate \par
        \vfill
        \py@authoraddress \par
       }%

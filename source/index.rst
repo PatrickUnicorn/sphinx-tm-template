@@ -3,8 +3,8 @@
     You can adapt this file completely to your liking, but it should at least
     contain the root `toctree` directive.
 
-Création d’un composant web capable de générer des quiz et autres exercices éducatifs
-=====================================================================================
+Création de composants Web capables de créer des quiz intéractifs et vidéo-ludiques
+===================================================================================
 
 ..  toctree::
     :maxdepth: 2
@@ -15,13 +15,9 @@ Création d’un composant web capable de générer des quiz et autres exercices
     chapitre-02.md
     chapitre-03.md
     chapitre-04.md
-
-..  toctree::
-    :maxdepth: 2
-    :caption: Tutoriel Sphinx
-
-    tutoriel-sphinx/index.rst
-
+    chapitre-05.md
+    chapitre-06.md
+    declaration-honneur.md
 
 
 

@@ -8,6 +8,8 @@ SPHINXBUILD   ?= sphinx-build
 SOURCEDIR     = source
 BUILDDIR      = build
 
+TARGET = tm-ecrit
+
 PDFVIEWER = explorer.exe
 
 # Put it first so that "make" without argument is like "make help".
@@ -23,17 +25,20 @@ help:
 
 livehtml:
 	sphinx-autobuild "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
-	
-surge:
-	surge build/html/ ini-prog.surge.sh
 
+
+livepdf:
+	watchmedo shell-command \
+		--patterns="*.png;*.rst;*.md;conf.py" \
+		--recursive \
+		--command='make tmpdf && make getpdf'
 		
 spelling:
 	@echo Serving pages on $(SPHINX_URL)
 	sphinx-build -b spelling -d build/doctrees   source $(BUILDDIR)/spelling
 
 view:
-	$(PDFVIEWER) ./build/latex/tm-ecrit.pdf
+	$(PDFVIEWER) ./build/latex/$(TARGET).pdf
 
 tmpdf:
 	make latex
@@ -44,6 +49,14 @@ tmpdf:
 	cp -f latex-templates/Makefile $(BUILDDIR)/latex
 	cp -f latex-templates/sphinxmanual.cls $(BUILDDIR)/latex
 	cd build/latex/ && make
+	cd build/latex/ && make
 
-getpdf:
-	cp -f build/latex/tm-ecrit.pdf .
+getpdf: tmpdf
+	cp -f build/latex/$(TARGET).pdf .
+
+surge: clean html
+	surge build/html csud-sphinx-tm.surge.sh
+
+
+patch:
+	

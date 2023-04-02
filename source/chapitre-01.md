@@ -1,48 +1,561 @@
-# Composant Qcm type 1
+# Composant Quiz
 
-Ce script configure une application de quiz en utilisant Vue.js. L'application a une liste de questions, chacune avec plusieurs options et une réponse correcte. L'utilisateur peut sélectionner une option pour chaque question, et l'application suivra si l'option sélectionnée par l'utilisateur est correcte.
+Ce composant gère l'affichage et la logique de l'ensemble du quiz, y compris l'affichage des questions, des médias, des réponses possibles, des résultats et des fonctionnalités d'administration.
 
-## Gestion de l'état
+## Template
 
-L'application utilise le système de réactivité intégré de Vue pour gérer l'état de l'application. Les variables d'état suivantes sont utilisées:
+```{code-block}
+<template>
+  <div>
+    <login-form
+      v-if="!isAdmin && !isUser"
+      @login="handleLogin"
+      :isAdmin="isAdmin"
+      :isUser="isUser"
+    ></login-form>
+    <div
+      v-if="quizActive && questions.length > 0 && !quizComplete"
+      class="quiz"
+    >
+      <h3 class="quiz__question">Questions:</h3>
+      <div v-for="question in questions" :key="question.id">
+        <h2>{{ question.title }}</h2>
+        <div v-if="question.media.type === 'image'">
+          <img
+            v-if="question.media.data"
+            :src="question.media.data"
+            alt="Question Image"
+            class="quiz__media quiz__media--image"
+            width="560"
+          />
+        </div>
 
-- `questions`: un tableau d'objets représentant les questions dans le quiz. Chaque objet de question a les propriétés suivantes:
-  - `question`: une chaîne représentant le texte de la question.
-  - `answer`: un entier représentant l'index de la réponse correcte dans le tableau `options`.
-  - `options`: un tableau de chaînes représentant les options pour la question.
-  - `selected`: un entier représentant l'index de l'option sélectionnée par l'utilisateur, ou `null` si l'utilisateur n'a pas encore sélectionné d'option.
-- `quizCompleted`: un booléen indiquant si le quiz a été terminé par l'utilisateur.
-- `currentQuestion`: un entier représentant l'index de la question actuelle dans le tableau `questions`.
-- `timer`: un entier représentant le nombre de secondes restantes pour le quiz.
+        <div v-else-if="question.media.type === 'video'"
+          class="quiz__media quiz__media--video"
+        >
+          <iframe
+            :src="embedUrl(question.media.data)"
+            width="560"
+            height="315"
+            allowfullscreen
+            style="border: 1px solid #e4e4e4; border-radius: 4px"
+            frameborder="0"
+          ></iframe>
+        </div>
+        <div v-if="!question.answerSelected" class="guesses-column">
+          <label v-for="(guess, index) in question.guesses" :key="index">
+            <input
+              type="radio"
+              :value="guess"
+              v-model="question.selectedAnswer"
+              :disabled="question.submitted"
+            />
+            {{ guess }}
+          </label>
+        </div>
+        <div v-else>
+          <div
+            :class="{
+              quiz__answer: true,
+              'quiz__answer--selected': question.submitted,
+            }"
+          >
+            You selected: {{ question.selectedAnswer }}
+          </div>
+        </div>
+      </div>
+      <button @click="submitQuiz">Submit Quiz</button>
+    </div>
+    <div v-if="isUser">
+      <button @click="createQuiz" v-if="!quizComplete && !quizActive && questions.length > 0">
+        Start Quiz
+      </button>
+    </div>
 
-Les propriétés calculées suivantes sont utilisées:
-- `score`: une propriété calculée qui retourne le nombre de questions que l'utilisateur a répondu correctement.
-- `getCurrentQuestion`: une propriété calculée qui retourne l'objet de question actuel, avec une propriété supplémentaire `index` représentant l'index de la question dans le tableau `questions`.
+    <div v-if="isAdmin">
+      <button v-if="!quizActive" @click="toggleQuestionManager">
+        Question Manager
+      </button>
+      <button @click="createQuiz" v-if="!quizComplete && !quizActive && questions.length > 0">
+        Start Quiz
+      </button>
 
-## Interaction utilisateur
+      <div v-if="showForm">
+  <form @submit.prevent="addQuestion" class="question-form">
+    <label class="question-form__label">
+      Question Title:
+      <input type="text" v-model="title" required class="question-form__input" />
+    </label>
+    <label class="question-form__label">
+      Guesses (separated by commas):
+      <input type="text" v-model="guesses" required class="question-form__input" />
+    </label>
+    <label class="question-form__label">
+      Answer (must be one of the guesses):
+      <select class="question-form__input" v-model="answer" required>
+        <option v-for="guess in guessList" :value="guess">{{ guess }}</option>
+      </select>
+    </label>
+    <label class="question-form__label">
+      Media Type:
+      <select class="question-form__input" v-model="selectedMediaType">
+        <option value="">None</option>
+        <option value="image">Image</option>
+        <option value="video">Video</option>
+        <option value="video">Geogebra classic</option>
+      </select>
+    </label>
+    <label v-if="selectedMediaType === 'image'" class="question-form__label">
+      Media Data (URL):
+      <input type="text" v-model="mediaData" required />
+    </label>
+    <label v-if="selectedMediaType === 'video'" class="question-form__label">
+      Media Data (URL):
+      <input type="text" v-model="mediaData" required />
+    </label>
 
-Les fonctions suivantes sont utilisées pour gérer l'interaction utilisateur:
-- `SetAnswer(e)`: Cette fonction est utilisée pour définir la réponse de l'utilisateur pour la question actuelle.
-- `startTimer()`: Cette fonction est utilisée pour démarrer le minuteur dès que la première question est chargée.
-- `NextQuestion()`: Cette fonction est utilisée pour passer à la question suivante. Si la question actuelle est la dernière question, la variable `quizCompleted` est définie sur `true`.
-- `resetQuiz()`: Cette fonction est utilisée pour réinitialiser le quiz à son état initial.
-- `saveProgress()`:Cette fonction est utilisée pour enregistrer l'état actuel du quiz dans le stockage local.
-- `loadProgress()`: Cette fonction est utilisée pour charger l'état sauvegardé du quiz depuis le stockage local.
+    <button type="submit" class="question-form__button question-form__button--save">
+      Submit
+    </button>
+    <button
+      type="button"
+      @click="showForm = false"
+      class="question-form__button question-form__button--cancel"
+    >
+      Cancel
+    </button>
+  </form>
+</div>
 
-## Mise en page
+      <question-manager
+        :isAdmin="isAdmin && !quizActive && !quizComplete"
+        :questions="questions"
+        :showQuestionManager="showQuestionManager"
+        @add-question="showAddQuestionForm"
+        @delete-question="deleteQuestion"
+        @save-question="saveQuestion($event)"
+      ></question-manager>
+    </div>
+    <div v-if="quizComplete" class="quiz-results">
+      <button v-if="isAdmin" @click="resetQuiz" class="quiz-results__reset-btn">
+        Reset Quiz
+      </button>
+      <h3 class="quiz-results__title">Quiz Results:</h3>
+      <p class="quiz-results__score">
+        You scored {{ score }} out of {{ questions.length }}.
+      </p>
+      <h4 class="quiz-results__question-title">Questions:</h4>
+      <ul class="quiz-results__question-list">
+        <li
+          v-for="question in questions"
+          :key="question.id"
+          class="quiz-results__question-item"
+        >
+          <h2 class="quiz-results__question-heading">{{ question.title }}</h2>
+          <ul class="quiz-results__guesses-list">
+            <li
+              v-for="(guess, index) in question.guesses"
+              :key="index"
+              class="quiz-results__guesses-item"
+            >
+              {{ guess }}
+            </li>
+          </ul>
+          <p class="quiz-results__answer">Answer: {{ question.answer }}</p>
+          <p class="quiz-results__your-answer">
+            Your answer: {{ question.selectedAnswer }}
+          </p>
+          <p
+            v-if="question.answer === question.selectedAnswer"
+            class="quiz-results__result-correct">
+            Correct!
+          </p>
+          <p v-else class="quiz-results__result-incorrect">Incorrect</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</template>
+```
 
-Le script utilise CSS pour mettre en forme le quiz. Les classes CSS suivantes sont utilisées:
-- `quiz-info`: pour mettre en forme le conteneur pour le texte de la question
-- `options`: pour mettre en forme le conteneur pour les options
-- `option`: pour mettre en forme une option individuelle
-- `correct`: pour indiquer une réponse correcte
-- `wrong`: pour indiquer une réponse incorrecte
-- `disabled`: pour indiquer une option qui n'a pas été sélectionnée par l'utilisateur.
+### Structure du template
 
-## Utilisation
+- `<login-form>`: Composant pour gérer la connexion en tant qu'utilisateur ou administrateur.
+- `<div class="quiz">`: Conteneur pour l'affichage des questions du quiz, visible uniquement lorsque le quiz est actif et n'est pas terminé.
+  - `<div v-for="question in questions" :key="question.id">`: Boucle sur chaque question et crée un conteneur pour l'affichage de la question, des médias associés et des réponses possibles.
+    - `<div v-if="question.media.type === 'image'">`ou `<div v-else-if="question.media.type === 'video'"`: Conteneurs pour les médias associés à la question (image ou vidéo).
+    - `<div class="guesses-column">`: Conteneur pour les réponses possibles de la question.
+      - `<label>`: Étiquette pour chaque réponse possible.
+        - `<input type="radio">`: Bouton radio pour sélectionner une réponse.
+    - `<div>`: Conteneur pour afficher la réponse sélectionnée par l'utilisateur.
+  - `<button @click="submitQuiz">`: Bouton pour soumettre le quiz.
+- `<div v-if="isUser">`: Conteneur pour les actions de l'utilisateur (commencer le quiz).
+- `<div v-if="isAdmin">`: Conteneur pour les actions de l'administrateur (gérer les questions, commencer le quiz).
+  - `<button v-if="!quizActive" @click="toggleQuestionManager">`: Bouton pour afficher le gestionnaire de questions.
+  - `<button @click="createQuiz" v-if="!quizComplete && !quizActive && questions.length > 0">`: Bouton pour créer un nouveau quiz.
+  - `<div v-if="showForm">`: Conteneur pour le formulaire d'ajout de question.
+  - `<question-manager>`: Composant pour gérer les questions du quiz (ajouter, modifier, supprimer des questions).
+- `<div v-if="quizComplete" class="quiz-results">`: Conteneur pour afficher les résultats du quiz lorsque le quiz est terminé.
+  - `<button v-if="isAdmin" @click="resetQuiz">`: Bouton pour réinitialiser le quiz (visible uniquement pour les administrateurs).
+  - `<ul class="quiz-results__question-list">`: Liste des questions avec les réponses possibles, la réponse correcte et la réponse sélectionnée par l'utilisateur.
 
-Pour utiliser ce script, vous devez l'importer dans votre projet Vue.js et appeler les fonctions nécessaires pour gérer l'interaction utilisateur et mettre à jour l'état de l'application.
+## Script
 
-## Conclusion
+```html
+<script>
+import LoginForm from "./LoginForm.vue";
+import QuestionManager from "./QuestionManager.vue";
 
-Ce script configure une application de quiz de base en utilisant Vue.js, qui permet aux utilisateurs de répondre à des questions et de suivre leur progression et leur score. Il a également un minuteur, et la progression de l'utilisateur peut être sauvegardée et chargée à partir du stockage local.
+export default {
+  components: {
+    LoginForm,
+    QuestionManager,
+  },
+  data() {
+    return {
+      showForm: false,
+      quizActive: false,
+      quizComplete: false,
+      questions: [],
+      selectedAnswers: {},
+      score: 0,
+      title: "",
+      guesses: "",
+      answer: "",
+      isAdmin: false,
+      loginError: false,
+      editingQuestion: null,
+      addingQuestion: false,
+      showQuestionManager: false,
+      selectedQuestion: null,
+      editingQuestionCopy: null,
+      mediaData: "",
+      selectedMediaType: "",
+      isUser: false,
+    };
+  },
+
+  methods: {
+    resetQuiz() {
+      this.quizComplete = false;
+      this.score = 0;
+      this.questions.forEach((question) => {
+        question.selectedAnswer = null;
+        question.answerSelected = false;
+      });
+      this.selectedAnswers = {};
+    },
+
+    handleLogin(userType) {
+      if (userType === "admin") {
+        this.isAdmin = true;
+      } else if (userType === "user") {
+        this.isUser = true;
+      }
+    },
+    addQuestion() {
+      const guessesList = this.guesses.split(",").map((guess) => guess.trim());
+      this.questions.push({
+        id: this.questions.length + 1,
+        title: this.title,
+        guesses: guessesList,
+        answer: this.answer,
+        media: {
+          type: this.selectedMediaType,
+          data: this.mediaData,
+        },
+      });
+
+      this.clearFormData();
+      localStorage.setItem("questions", JSON.stringify(this.questions));
+    },
+
+    clearFormData() {
+      this.title = "";
+      this.guesses = "";
+      this.answer = "";
+      this.selectedMediaType = "";
+      this.mediaData = "";
+      this.showForm = false;
+    },
+
+    embedUrl(url) {
+      let embedUrl;
+
+      if (url.includes("youtube.com") || url.includes("youtu.be")) {
+        const videoId = url.split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/)[2];
+        embedUrl = `https://www.youtube.com/embed/${videoId}`;
+      } else if (url.includes("vimeo.com")) {
+        const videoId = url.split(/(vimeo\.com\/|video\/)/)[2];
+        embedUrl = `https://player.vimeo.com/video/${videoId}`;
+      } else if (url.includes("dailymotion.com")) {
+        const videoId = url.split(/(dailymotion\.com\/video\/|dai\.ly\/)/)[2];
+        embedUrl = `https://www.dailymotion.com/embed/video/${videoId}`;
+      } else if (url.includes("geogebra.org")) {
+        embedUrl = `${url}?embed&showToolBar=false`;
+      } else {
+        embedUrl = url;
+      }
+
+      return embedUrl;
+    },
+
+    createQuiz() {
+      this.questions.forEach((question) => {
+        if (!question.hasOwnProperty("media")) {
+          question.media = {
+            type: "",
+            data: "",
+          };
+        } else {
+          question.media.type = question.media.type || "";
+          question.media.data = question.media.data || "";
+        }
+        question.selectedAnswer = null;
+        question.answerSelected = false;
+      });
+      this.quizActive = true;
+    },
+
+    submitQuiz() {
+      let numCorrect = 0;
+      this.questions.forEach((question) => {
+        if (question.selectedAnswer === question.answer) {
+          numCorrect++;
+        }
+      });
+      this.score = numCorrect;
+      this.quizComplete = true;
+      this.quizActive = false;
+    },
+
+    selectAnswer(question, guess) {
+      this.$set(this.selectedAnswers, question.id, guess);
+    },
+
+    logout() {
+      this.isAdmin = false;
+      this.isUser = false;
+    },
+
+    deleteQuestion(question) {
+      const index = this.questions.findIndex((q) => q.id === question.id);
+      this.questions.splice(index, 1);
+      localStorage.setItem("questions", JSON.stringify(this.questions));
+    },
+    saveQuestion(payload) {
+      const { original, edited } = payload;
+
+      if (this.addingQuestion) {
+        this.addQuestion();
+      } else if (original !== null) {
+        const index = this.questions.findIndex((q) => q.id === original.id);
+        this.questions.splice(index, 1, edited);
+        localStorage.setItem("questions", JSON.stringify(this.questions));
+      }
+      this.selectedQuestion = null;
+    },
+
+    toggleQuestionManager() {
+      this.showQuestionManager = !this.showQuestionManager;
+    },
+    showAddQuestionForm() {
+      this.showForm = true;
+      this.addingQuestion = true;
+      this.selectedQuestion = null;
+    },
+  },
+  mounted() {
+    const questions = JSON.parse(localStorage.getItem("questions"));
+    if (questions) {
+      this.questions = questions;
+    }
+  },
+  computed: {
+    editingQuestionGuesses: {
+      get() {
+        if (this.editingQuestionCopy) {
+          return this.editingQuestionCopy.guesses.join(", ");
+        }
+        return "";
+      },
+      set(newVal) {
+        if (this.editingQuestionCopy) {
+          this.editingQuestionCopy.guesses = newVal
+            .split(",")
+            .map((guess) => guess.trim());
+        }
+      },
+    },
+    guessList() {
+      if (!this.guesses) {
+        return [];
+      }
+      return this.guesses.split(",").map((guess) => guess.trim());
+    },
+    selectedQuestionGuesses() {
+      if (this.selectedQuestion) {
+        return this.selectedQuestion.guesses.join(", ");
+      }
+      return "";
+    },
+    selectedQuestionData() {
+      if (this.selectedQuestion) {
+        return {
+          title: this.selectedQuestion.title,
+          guesses: this.selectedQuestion.guesses.join(", "),
+          answer: this.selectedQuestion.answer,
+          media: {
+            type: this.selectedQuestion.media.type,
+            data: this.selectedQuestion.media.data,
+          },
+        };
+      }
+      return null;
+    },
+  },
+  watch: {
+    selectedQuestionGuesses(newVal) {
+      if (this.selectedQuestion) {
+        this.selectedQuestion.guesses = newVal
+          .split(",")
+          .map((guess) => guess.trim());
+      }
+    },
+    showQuizQuestions() {
+      return this.quizActive && this.questions.length > 0 && !this.quizComplete;
+    },
+  },
+};
+</script>
+```
+
+### Importations
+
+- LoginForm : composant pour le formulaire de connexion.
+- QuestionManager : composant pour gérer les questions du quiz.
+
+### Propriétés de l'objet 'data'
+
+- showForm : booléen pour afficher ou masquer le formulaire d'ajout de question.
+- quizActive : booléen pour déterminer si le quiz est actif ou non.
+- quizComplete : booléen pour déterminer si le quiz est terminé ou non.
+- questions : tableau pour stocker les questions du quiz.
+- selectedAnswers : objet pour stocker les réponses sélectionnées par l'utilisateur.
+- score : nombre pour stocker le score de l'utilisateur.
+- title : chaîne pour stocker le titre de la question en cours de création.
+- guesses : chaîne pour stocker les propositions de réponse pour la question en cours de création.
+- answer : chaîne pour stocker la réponse correcte de la question en cours de création.
+- isAdmin : booléen pour déterminer si l'utilisateur est un administrateur.
+- loginError : booléen pour déterminer s'il y a une erreur de connexion.
+- editingQuestion : objet pour stocker la question en cours de modification.
+- addingQuestion : booléen pour déterminer si une question est en cours d'ajout.
+- showQuestionManager : booléen pour afficher ou masquer le gestionnaire de questions.
+- selectedQuestion : objet pour stocker la question sélectionnée.
+- editingQuestionCopy : objet pour stocker une copie de la question en cours de modification.
+- mediaData : chaîne pour stocker les données de média (URL) de la question en cours de création.
+- selectedMediaType : chaîne pour stocker le type de média de la question en cours de création.
+- isUser : booléen pour déterminer si l'utilisateur est un utilisateur normal.
+
+### Méthodes
+
+- resetQuiz : réinitialise le quiz.
+- handleLogin(userType) : gère la connexion de l'utilisateur en fonction du type d'utilisateur.
+- addQuestion : ajoute une nouvelle question au tableau des questions.
+- clearFormData : réinitialise les données du formulaire.
+- embedUrl(url) : génère une URL intégrée en fonction de l'URL du média.
+- createQuiz : crée un quiz à partir des questions.
+- submitQuiz : soumet le quiz et calcule le score.
+- selectAnswer(question, guess) : sélectionne une réponse pour une question.
+- logout : déconnecte l'utilisateur.
+- deleteQuestion(question) : supprime une question du tableau des questions.
+- saveQuestion(payload) : enregistre les modifications apportées à une question.
+- toggleQuestionManager : bascule l'affichage du gestionnaire de questions.
+- showAddQuestionForm : affiche le formulaire d'ajout de question.
+
+### Cycle de vie
+
+- mounted : récupère les questions stockées localement à l'initialisation du composant.
+
+### Propriétés calculées
+
+- editingQuestionGuesses : obtient et définit les propositions de réponse pour la question en cours de modification.
+- guessList : retourne la liste des propositions pour la question en cours de création.
+- selectedQuestionGuesses : obtient et définit les propositions de réponse pour la question sélectionnée.
+- selectedQuestionData : retourne les données de la question sélectionnée.
+
+### Surveillance
+
+- selectedQuestionGuesses : met à jour les propositions de réponse pour la question sélectionnée.
+- showQuizQuestions : retourne un booléen pour afficher les questions du quiz lorsque le quiz est actif, a des questions et n'est pas terminé.
+
+### Explication des méthodes
+
+- resetQuiz()
+  - Réinitialise les propriétés quizComplete et score.
+  - Réinitialise les propriétés selectedAnswer et answerSelected pour chaque question.
+  - Réinitialise l'objet selectedAnswers.
+  
+- handleLogin(userType)
+  - Si userType est "admin", définit isAdmin sur true.
+  - Si userType est "user", définit isUser sur true.
+- addQuestion()
+  - Crée un tableau guessesList en séparant les chaînes de caractères de la propriété guesses.
+  - Ajoute une nouvelle question au tableau questions avec les propriétés fournies.
+  - Appelle clearFormData() pour réinitialiser le formulaire.
+  - Stocke les questions dans le localStorage.
+- clearFormData()
+  - Réinitialise les propriétés title, guesses, answer, selectedMediaType, mediaData et showForm.
+- embedUrl(url)
+  - Génère une URL intégrée pour YouTube, Vimeo, Dailymotion et Geogebra en fonction de l'URL du média fournie.
+- createQuiz()
+  - Initialise les propriétés media, selectedAnswer et answerSelected pour chaque question.
+  - Définit quizActive sur true.
+- submitQuiz()
+  - Calcule le nombre de réponses correctes.
+  - Met à jour le score.
+  - Définit quizComplete sur true et quizActive sur false.
+  - selectAnswer(question, guess)
+  - Met à jour l'objet selectedAnswers avec l'ID de la question et la réponse sélectionnée.
+- logout()
+  - Définit isAdmin et isUser sur false.
+- deleteQuestion(question)
+  - Trouve l'index de la question à supprimer dans le tableau questions.
+  - Supprime la question à l'index trouvé.
+  - Met à jour le localStorage avec les nouvelles questions.
+- saveQuestion(payload)
+  - Si addingQuestion est true, appelle addQuestion().
+  - Sinon, trouve l'index de la question originale dans le tableau des questions, remplace la question par la version modifiée et met à jour le localStorage.
+  - Réinitialise selectedQuestion.
+- toggleQuestionManager()
+  - Bascule la valeur de showQuestionManager.
+- showAddQuestionForm()
+  - Affiche le formulaire d'ajout de question en définissant showForm et addingQuestion sur true.
+  - Réinitialise selectedQuestion.
+
+### Computed properties
+
+- editingQuestionGuesses
+  - Getter : Si editingQuestionCopy existe, retourne les éléments du tableau guesses de editingQuestionCopy sous forme de chaîne de caractères séparés par des virgules.
+  - Setter : Si editingQuestionCopy existe, met à jour le tableau guesses de editingQuestionCopy avec les éléments de la chaîne de caractères newVal, en les séparant par des virgules.
+- guessList()
+- Si la propriété guesses est vide, retourne un tableau vide.
+- Sinon, retourne un tableau contenant les éléments de la chaîne de caractères guesses, en les séparant par des virgules.
+- selectedQuestionGuesses()
+  - Si selectedQuestion existe, retourne les éléments du tableau guesses de selectedQuestion sous forme de chaîne de caractères séparés par des virgules.
+  - Sinon, retourne une chaîne vide.
+- selectedQuestionData()
+  - Si selectedQuestion existe, retourne un objet contenant les propriétés de la question sélectionnée.
+  - Sinon, retourne null.
+
+### Watchers
+
+- selectedQuestionGuesses(newVal)
+  - Si selectedQuestion existe, met à jour le tableau guesses de selectedQuestion avec les éléments de la chaîne de caractères newVal, en les séparant par des virgules.
+- showQuizQuestions()
+  - Retourne un booléen pour afficher les questions du quiz lorsque le quiz est actif, a des questions et n'est pas terminé.
+  - Ainsi, le script permet de gérer les fonctionnalités du quiz, y compris la création, la soumission, la réinitialisation, la gestion des questions, l'ajout de questions et la connexion/déconnexion des utilisateurs et administrateurs.
+
+## Styles
+
+Les styles CSS pour ce composant ne sont pas inclus dans le code fourni. Vous pouvez les ajouter en fonction de vos besoins pour personnaliser l'apparence du quiz.
