@@ -433,41 +433,57 @@ export default {
 
 ### Propriétés de l'objet 'data'
 
-- showForm : booléen pour afficher ou masquer le formulaire d'ajout de question.
-- quizActive : booléen pour déterminer si le quiz est actif ou non.
-- quizComplete : booléen pour déterminer si le quiz est terminé ou non.
-- questions : tableau pour stocker les questions du quiz.
-- selectedAnswers : objet pour stocker les réponses sélectionnées par l'utilisateur.
-- score : nombre pour stocker le score de l'utilisateur.
-- title : chaîne pour stocker le titre de la question en cours de création.
-- guesses : chaîne pour stocker les propositions de réponse pour la question en cours de création.
-- answer : chaîne pour stocker la réponse correcte de la question en cours de création.
-- isAdmin : booléen pour déterminer si l'utilisateur est un administrateur.
-- loginError : booléen pour déterminer s'il y a une erreur de connexion.
-- editingQuestion : objet pour stocker la question en cours de modification.
-- addingQuestion : booléen pour déterminer si une question est en cours d'ajout.
-- showQuestionManager : booléen pour afficher ou masquer le gestionnaire de questions.
-- selectedQuestion : objet pour stocker la question sélectionnée.
-- editingQuestionCopy : objet pour stocker une copie de la question en cours de modification.
-- mediaData : chaîne pour stocker les données de média (URL) de la question en cours de création.
-- selectedMediaType : chaîne pour stocker le type de média de la question en cours de création.
-- isUser : booléen pour déterminer si l'utilisateur est un utilisateur normal.
+- showForm : 
+  - booléen pour afficher ou masquer le formulaire d'ajout de question.
+- quizActive : 
+  - booléen pour déterminer si le quiz est actif ou non.
+- quizComplete : 
+  - booléen pour déterminer si le quiz est terminé ou non.
+- questions : 
+  - tableau pour stocker les questions du quiz.
+- selectedAnswers : 
+  - objet pour stocker les réponses sélectionnées par l'utilisateur.
+- editingQuestion : 
+  - objet pour stocker la question en cours de modification.
+- addingQuestion : 
+  - booléen pour déterminer si une question est en cours d'ajout.
+- showQuestionManager : 
+  - booléen pour afficher ou masquer le gestionnaire de questions.
+- selectedQuestion : 
+  - objet pour stocker la question sélectionnée.
+- editingQuestionCopy : 
+  - objet pour stocker une copie de la question en cours de modification.
+- mediaData : 
+  - chaîne pour stocker les données de média (URL) de la question en cours de création.
+- selectedMediaType : 
+  - chaîne pour stocker le type de média de la question en cours de création.
 
 ### Méthodes
 
-- resetQuiz : réinitialise le quiz.
-- handleLogin(userType) : gère la connexion de l'utilisateur en fonction du type d'utilisateur.
-- addQuestion : ajoute une nouvelle question au tableau des questions.
-- clearFormData : réinitialise les données du formulaire.
-- embedUrl(url) : génère une URL intégrée en fonction de l'URL du média.
-- createQuiz : crée un quiz à partir des questions.
-- submitQuiz : soumet le quiz et calcule le score.
-- selectAnswer(question, guess) : sélectionne une réponse pour une question.
-- logout : déconnecte l'utilisateur.
-- deleteQuestion(question) : supprime une question du tableau des questions.
-- saveQuestion(payload) : enregistre les modifications apportées à une question.
-- toggleQuestionManager : bascule l'affichage du gestionnaire de questions.
-- showAddQuestionForm : affiche le formulaire d'ajout de question.
+- resetQuiz : 
+  - réinitialise le quiz.
+- handleLogin(userType) : 
+  - gère la connexion de l'utilisateur en fonction du type d'utilisateur.
+- addQuestion : 
+  - ajoute une nouvelle question au tableau des questions.
+- clearFormData : 
+  - réinitialise les données du formulaire.
+- embedUrl(url) : 
+  - génère une URL intégrée en fonction de l'URL du média.
+- createQuiz : 
+  - crée un quiz à partir des questions.
+- submitQuiz : 
+  - soumet le quiz et calcule le score.
+- selectAnswer(question, guess) : 
+  - sélectionne une réponse pour une question.
+- deleteQuestion(question) : 
+  - supprime une question du tableau des questions.
+- saveQuestion(payload) :
+  - enregistre les modifications apportées à une question.
+- toggleQuestionManager :
+  - bascule l'affichage du gestionnaire de questions.
+- showAddQuestionForm : 
+  - affiche le formulaire d'ajout de question.
 
 ### Cycle de vie
 
@@ -495,36 +511,46 @@ export default {
 - handleLogin(userType)
   - Si userType est "admin", définit isAdmin sur true.
   - Si userType est "user", définit isUser sur true.
+
 - addQuestion()
   - Crée un tableau guessesList en séparant les chaînes de caractères de la propriété guesses.
   - Ajoute une nouvelle question au tableau questions avec les propriétés fournies.
   - Appelle clearFormData() pour réinitialiser le formulaire.
   - Stocke les questions dans le localStorage.
+  
 - clearFormData()
   - Réinitialise les propriétés title, guesses, answer, selectedMediaType, mediaData et showForm.
+
 - embedUrl(url)
   - Génère une URL intégrée pour YouTube, Vimeo, Dailymotion et Geogebra en fonction de l'URL du média fournie.
+
 - createQuiz()
   - Initialise les propriétés media, selectedAnswer et answerSelected pour chaque question.
-  - Définit quizActive sur true.
+  - Définit quizActive sur true
+  .
 - submitQuiz()
   - Calcule le nombre de réponses correctes.
   - Met à jour le score.
   - Définit quizComplete sur true et quizActive sur false.
   - selectAnswer(question, guess)
   - Met à jour l'objet selectedAnswers avec l'ID de la question et la réponse sélectionnée.
+
 - logout()
   - Définit isAdmin et isUser sur false.
+
 - deleteQuestion(question)
   - Trouve l'index de la question à supprimer dans le tableau questions.
   - Supprime la question à l'index trouvé.
   - Met à jour le localStorage avec les nouvelles questions.
+
 - saveQuestion(payload)
   - Si addingQuestion est true, appelle addQuestion().
   - Sinon, trouve l'index de la question originale dans le tableau des questions, remplace la question par la version modifiée et met à jour le localStorage.
   - Réinitialise selectedQuestion.
+
 - toggleQuestionManager()
   - Bascule la valeur de showQuestionManager.
+
 - showAddQuestionForm()
   - Affiche le formulaire d'ajout de question en définissant showForm et addingQuestion sur true.
   - Réinitialise selectedQuestion.
@@ -535,8 +561,8 @@ export default {
   - Getter : Si editingQuestionCopy existe, retourne les éléments du tableau guesses de editingQuestionCopy sous forme de chaîne de caractères séparés par des virgules.
   - Setter : Si editingQuestionCopy existe, met à jour le tableau guesses de editingQuestionCopy avec les éléments de la chaîne de caractères newVal, en les séparant par des virgules.
 - guessList()
-- Si la propriété guesses est vide, retourne un tableau vide.
-- Sinon, retourne un tableau contenant les éléments de la chaîne de caractères guesses, en les séparant par des virgules.
+  - Si la propriété guesses est vide, retourne un tableau vide.
+  - Sinon, retourne un tableau contenant les éléments de la chaîne de caractères guesses, en les séparant par des virgules.
 - selectedQuestionGuesses()
   - Si selectedQuestion existe, retourne les éléments du tableau guesses de selectedQuestion sous forme de chaîne de caractères séparés par des virgules.
   - Sinon, retourne une chaîne vide.

@@ -3,8 +3,8 @@
     You can adapt this file completely to your liking, but it should at least
     contain the root `toctree` directive.
 
-Création de composants Web capables de créer des quiz intéractifs et vidéo-ludiques
-===================================================================================
+Développement de composants Web afin de créer des quiz intéractifs et vidéo-ludiques
+====================================================================================
 
 ..  toctree::
     :maxdepth: 2
@@ -17,13 +17,13 @@ Création de composants Web capables de créer des quiz intéractifs et vidéo-l
     chapitre-04.md
     chapitre-05.md
     chapitre-06.md
+    webographie.md
+    remerciement.md
     declaration-honneur.md
     sidebar.md
     Qcm1.md
     Qcm2.md
     FillInTheGap.md
-    webographie.md
-    remerciement.md
 
 
 Indices and tables

@@ -72,34 +72,4 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.quiz-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: #333;
-  color: #fff;
-  padding: 20px;
-}
-
-select {
-  margin: 10px 0;
-}
-
-button {
-  padding: 10px 20px;
-  background-color: #fff;
-  color: #333;
-  border: none;
-  cursor: pointer;
-}
-
-.blank {
-  background-color: #fff;
-  color: #333;
-  padding: 5px 10px;
-}
-</style>
 ```
