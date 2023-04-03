@@ -1,3 +1,7 @@
+## Deuxième Qcm à voir le jour 
+
+- déjà un peu plus libre même si l'on ne peut pas créer ses propres questions à moins de les modifier dans le code en lui-même mais permet de revenir à la question d'antérieur
+
 ```{code-block}
 <template>
   <div class="qcm2">

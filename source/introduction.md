@@ -10,11 +10,11 @@ Le principal but de mon projet est de créer un composants web capable de géné
 
 Il y a eu beaucoup plus de difficultés que ce que j'aurais pu m'imaginer peut-être que c'était de la prétention qui sait. j'ai commencé la programmation en début de mois août et bien que j'avançait à bon rythme  ma première difficulté était de savoir comment corrigeait-t-on les divers erreur. le deuxième était que je n'était jamais satisfait de mon travail car il me manquait le principal des mes objectifs pouvoir créer de A à Z un quiz sans aucune connaissance de l'informatique directement sur la page web où s'affichait le composant.
 je pense que le pire était quand je réalisait que je ne possédait de loin pas assez de connaissance pour réaliser mes tâches aisément. Ou alors c'était le fait que je me devais de réviser pour les cours pour maintenir mes moyennes car je n'ai pas le droit à l'erreur. 
-Enfin, pour tout dire, je suis content des deux composants relativement complet et qui fonctionne, bien sûr, et même si les autres composants que j'avais commencé fonctionnent, il leur manque cette intéraction avec l'utilisateur qui veut peut-être ajouter ces propres questions.
+Enfin, pour tout dire, je suis content des deux composants relativement complet et qui fonctionne, bien sûr, et même si les autres composants que j'avais commencé fonctionnent, il leur manque cette interaction avec l'utilisateur qui veut peut-être ajouter ces propres questions.
 
 ## Intérêt de l'outil:
 
-Mes composants sont des outils à but éducatif et amusant pour les enseignants, les étudiants ou même les personnes qui souhaitent tester leurs connaissances dans un domaine en particulier. cet outil permet de créer facilement des questionnaires avec une variété de types de questions dont un simple Qcm et un quiz ou l'on trie l'emplacement de divers éléments. Les résultats sont montrés à la fin des quiz.
+Mes composants ont pour but d'être éducatif et amusant pour les enseignants, les étudiants ou même simplement les personnes qui souhaitent tester leur culture générale et les résultats sont montrés à la fin des quiz. cet outil permet de créer facilement des questionnaires avec divers types de questions dont un simple Qcm et un quiz où l'on trie l'emplacement de divers éléments.
 
 ## Aperçu des solutions similaires existantes:
 

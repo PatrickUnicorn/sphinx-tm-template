@@ -1,3 +1,7 @@
+## Premier Qcm 
+
+- c'était mon premier composant en rapport au type de questions et bien qu'il fonctionnait il était trop restrictif étant donné que c'était un composant fixe sans possibilité de changer les questions depuis la page web
+
 ```{code-block}
 <script setup>
 import { ref, computed } from "vue";

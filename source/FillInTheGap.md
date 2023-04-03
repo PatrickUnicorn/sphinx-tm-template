@@ -1,3 +1,7 @@
+## Composant de texte à trou 
+
+- je pense avoir perdu une dizaine d'heure à vouloir faire fonctionner le code mais les erreurs devenant trop nombreuses j'ai abandonné même si j'aimais le principe de ce type de question
+
 ```{code-block}
 <template>
   <div class="quiz-container">

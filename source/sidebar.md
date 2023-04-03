@@ -1,3 +1,10 @@
+## Sidebar
+
+Petit composant qui permettait de naviger entre les routes du site pour charger un composant en particulier
+- Utilisation de Vue Router
+- Mais bien qu'il marche il n'est pas pratique car les routes doivent être écrite manuelement et fait tout planté si il y a une erreur à un petit endroit
+- Ce sont mes premières lignes de codes en dehors de python
+
 ```{code-block}
 <template>
   <aside :class="`${is_expanded && 'is-expanded'}`">
