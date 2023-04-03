@@ -22,6 +22,8 @@ Création de composants Web capables de créer des quiz intéractifs et vidéo-l
     Qcm1.md
     Qcm2.md
     FillInTheGap.md
+    webographie.md
+    remerciement.md
 
 
 Indices and tables
