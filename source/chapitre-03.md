@@ -251,7 +251,3 @@ Cette méthode est appelée lorsque l'utilisateur clique sur le bouton "Save". E
 #### iii. addQuestion()
 
 Cette méthode est appelée lorsque l'utilisateur clique sur le bouton "Add Question". Elle émet simplement un événement "add-question".
-
-## 3. Styles (non présents dans le code fourni)
-
-Cette partie contiendrait les styles CSS qui définissent l'apparence du composant.

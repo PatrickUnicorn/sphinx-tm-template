@@ -158,9 +158,3 @@ Cette méthode est appelée lorsque le formulaire est soumis. Elle vérifie si l
 #### ii. loginAsUser()
 
 Cette méthode est appelée lorsque l'utilisateur clique sur le bouton 'Login as User'. Elle émet simplement un événement 'login' avec la valeur 'user'.
-
-## 3. Styles
-
-### (non présents dans le code fourni)
-
-Cette partie contiendrait les styles CSS qui définissent l'apparence du composant mais ces styles sont simples et personnels et donc pas très important pour le faire fonctionner.

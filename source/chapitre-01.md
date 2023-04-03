@@ -551,7 +551,3 @@ export default {
 - showQuizQuestions()
   - Retourne un booléen pour afficher les questions du quiz lorsque le quiz est actif, a des questions et n'est pas terminé.
   - Ainsi, le script permet de gérer les fonctionnalités du quiz, y compris la création, la soumission, la réinitialisation, la gestion des questions, l'ajout de questions et la connexion/déconnexion des utilisateurs et administrateurs.
-
-## Styles
-
-Les styles CSS pour ce composant ne sont pas inclus dans le code fourni. Vous pouvez les ajouter en fonction de vos besoins pour personnaliser l'apparence du quiz.

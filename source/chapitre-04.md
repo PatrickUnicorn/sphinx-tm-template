@@ -75,6 +75,8 @@ Ce composant permet de créer un formulaire pour ajouter ou modifier un quiz de 
 
 ## Script
 
+Le script définit les propriétés et les méthodes de l'instance Vue pour ce composant.
+
 ```html
 <script>
 export default {
@@ -114,20 +116,17 @@ export default {
 </script>
 ```
 
-### Données
+### Propriétés
 
-- `form`: Objet représentant le formulaire avec les propriétés :
-  - `question`: Chaîne de caractères pour la question du quiz.
-  - `columnTitles`: Tableau pour les titres des colonnes.
-  - `initialElements`: Tableau pour les éléments initiaux.
+Les propriétés de l'instance Vue sont définies dans la fonction `data` :
+
+- `form`: un objet contenant les propriétés `question`, `columnTitles` et `initialElements`, qui sont liées aux champs du formulaire.
 
 ### Méthodes
 
-- `addColumn()`: Ajoute une nouvelle colonne vide au tableau des titres de colonnes.
-- `addElement()`: Ajoute un nouvel élément vide au tableau des éléments initiaux.
-- `submitQuizForm()`: Gère la soumission du formulaire en émettant un événement "create-quiz" avec les données du formulaire, puis réinitialise le formulaire.
-- `resetForm()`: Réinitialise le formulaire en remettant les champs à leur état initial.
+Plusieurs méthodes sont définies pour gérer les actions de l'utilisateur :
 
-## Styles
-
-Les styles CSS pour ce composant ne sont pas inclus dans le code fourni. Vous pouvez les ajouter en fonction de vos besoins pour personnaliser l'apparence du formulaire et des champs.
+- `addColumn`: ajoute un élément vide au tableau `form.columnTitles`.
+- `addElement`: ajoute un élément vide au tableau `form.initialElements`.
+- `submitQuizForm`: crée un objet `form` avec les données du formulaire, émet un événement personnalisé "create-quiz" avec cet objet, puis réinitialise le formulaire.
+- `resetForm`: réinitialise les propriétés de l'objet `form` à leurs valeurs initiales.
