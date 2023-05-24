@@ -17,6 +17,7 @@ Développement de composants Web afin de créer des quiz intéractifs et vidéo-
     chapitre-04.md
     chapitre-05.md
     chapitre-06.md
+    conclusion.md
     webographie.md
     remerciement.md
     declaration-honneur.md
@@ -25,9 +26,3 @@ Développement de composants Web afin de créer des quiz intéractifs et vidéo-
     Qcm2.md
     FillInTheGap.md
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`search`

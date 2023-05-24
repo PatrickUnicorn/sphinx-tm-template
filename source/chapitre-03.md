@@ -2,7 +2,7 @@
 
 Le composant est divisé en trois parties principales :
 
-## 1. Template
+## Template
 
 Cette partie contient le code HTML qui définit la structure du gestionnaire de questions et ses éléments interactifs.
 
@@ -165,7 +165,7 @@ En réalité, il n'y a qu'un seul formulaire qui change de comportement selon qu
 </div>
 ```
 
-## 2. Script
+## Script
 
 Cette partie contient le code JavaScript qui gère le comportement du composant.
 
@@ -240,14 +240,14 @@ export default {
 
 - methods: Un objet contenant les méthodes qui gèrent le comportement du composant. Les méthodes sont "deleteQuestion", "saveQuestion" et "addQuestion".
 
-#### i. deleteQuestion(question)
+#### deleteQuestion(question)
 
 Cette méthode est appelée lorsque l'utilisateur clique sur le bouton "Delete". Elle émet un événement "delete-question" au composant parent avec la question à supprimer en paramètre.
 
-#### ii. saveQuestion()
+#### saveQuestion()
 
 Cette méthode est appelée lorsque l'utilisateur clique sur le bouton "Save". Elle émet un événement "save-question" avec l'objet original et l'objet édité en paramètres, puis réinitialise la variable selectedQuestion.
 
-#### iii. addQuestion()
+#### addQuestion()
 
 Cette méthode est appelée lorsque l'utilisateur clique sur le bouton "Add Question". Elle émet simplement un événement "add-question".

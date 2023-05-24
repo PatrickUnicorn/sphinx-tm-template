@@ -2,7 +2,7 @@
 
 Le composant est divisé en trois parties principales :
 
-## 1. Template
+## Template
 
 Cette partie contient le code HTML qui définit la structure du formulaire de connexion et ses éléments interactifs.
 
@@ -109,7 +109,7 @@ Cette partie contient le code HTML qui définit la structure du formulaire de co
 - Les boutons pour se connecter en tant qu'administrateur et utilisateur, avec des gestionnaires d'événements associés.
 - Un message d'erreur qui apparaît si les identifiants sont invalides.
 
-## 2. Script
+## Script
 
 Cette partie contient le code JavaScript qui gère le comportement du composant.
 
@@ -151,10 +151,10 @@ b. data(): Une fonction qui retourne un objet contenant les variables de donnée
 
 c. methods: Un objet contenant les méthodes qui gèrent le comportement du composant. Les méthodes sont login et loginAsUser.
 
-#### i. login()
+#### login()
 
 Cette méthode est appelée lorsque le formulaire est soumis. Elle vérifie si les identifiants sont corrects et émet un événement 'login' avec la valeur 'admin' si c'est le cas. Sinon, elle affiche un message d'erreur et réinitialise les champs de saisie.
 
-#### ii. loginAsUser()
+#### loginAsUser()
 
 Cette méthode est appelée lorsque l'utilisateur clique sur le bouton 'Login as User'. Elle émet simplement un événement 'login' avec la valeur 'user'.
