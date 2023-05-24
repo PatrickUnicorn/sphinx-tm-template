@@ -8,7 +8,7 @@ Le principal objectif de mon projet est de créer des composants web capables de
 
 ## Difficultés envisagées
 
-Il y a eu beaucoup plus de difficultés que ce que j'aurais pu imaginer - peut-être que c'était de la prétention, qui sait. J’ai commencé la programmation en début du mois d'août et, bien que j'avançais à bon rythme, ma première difficulté était de savoir comment corriger les diverses erreurs. La deuxième était que je n'étais jamais satisfait de mon travail car il me manquait l'objectif principal : pouvoir créer de A à Z un quiz sans aucune connaissance en informatique directement sur la page web où s'affiche le composant.
+Il y a eu beaucoup plus de difficultés que ce que j'aurais pu imaginer - peut-être que c'était de la prétention, qui sait. J’ai commencé la programmation en début du mois d'août et, bien que j'avançasse à bon rythme, ma première difficulté était de savoir comment corriger les diverses erreurs. La deuxième était que je n'étais jamais satisfait de mon travail car il me manquait l'objectif principal : pouvoir créer de A à Z un quiz sans aucune connaissance en informatique directement sur la page web où s'affiche le composant.
 Je pense que le pire était quand je réalisais que je ne possédais pas assez de connaissances pour réaliser mes tâches aisément. Ou alors, c'était le fait que je devais réviser pour les cours pour maintenir mes moyennes, car je n'ai pas le droit à l'erreur.
 Enfin, pour tout dire, je suis content des deux composants relativement complets qui fonctionnent, bien sûr, et même si les autres composants que j'avais commencé à développer fonctionnent, il leur manque cette interaction avec l'utilisateur qui veut peut-être ajouter ses propres questions.
 
