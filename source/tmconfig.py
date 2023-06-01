@@ -1,6 +1,6 @@
 class DocumentInfos:
 
-    title = u'Développement de composants Web afin de créer des quiz intéractifs'
+    title = u'Développement de composants Web afin de créer des quiz interactifs'
     first_name = 'Patrick'
     last_name = 'Oliveira Alves'
     address = u'Rue des Agges 46, 1635 La Tour-de-trême'

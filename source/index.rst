@@ -3,7 +3,7 @@
     You can adapt this file completely to your liking, but it should at least
     contain the root `toctree` directive.
 
-Développement de composants Web afin de créer des quiz intéractifs
+Développement de composants Web afin de créer des quiz interactifs
 ==================================================================
 
 ..  toctree::
