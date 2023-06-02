@@ -1,6 +1,6 @@
 ## Composant de texte à trou 
 
-- je pense avoir perdu une dizaine d'heure à vouloir faire fonctionner le code mais les erreurs devenant trop nombreuses j'ai abandonné même si j'aimais le principe de ce type de question
+- Je pense avoir perdu une dizaine d'heures à tenter de faire fonctionner le code, mais face à l'accumulation d'erreurs, j'ai fini par abandonner, même si j'appréciais le principe de ce type de question. (Finalement, j'ai réussi à le créer pour l'oral de TM.)
 
 ```{code-block}
 <template>

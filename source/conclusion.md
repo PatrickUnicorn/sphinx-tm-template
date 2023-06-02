@@ -1,6 +1,6 @@
 # Conclusion
 
-## Travail Accompli
+## Travail accompli
 
 J'ai largement surestimé mes compétences en informatique ou, peut-être, sous-estimé la complexité du sujet. Dans tous les cas, je suis loin de ce que j'avais prévu de réaliser dans mon séminaire. Je pense que je vais continuer à améliorer mon projet jusqu'à la présentation orale car je ne suis pas prêt à abandonner si facilement. Pour l'instant, j'ai seulement deux types de questions qui sont complètement modulables selon le créateur du quiz. Cependant, tout est stocké localement, donc il sera peut-être nécessaire d'ajouter une base de données pour récupérer les résultats ou les réponses des utilisateurs. J'ai aussi d'autres composants qui fonctionnent très bien, comme le formulaire de connexion, le gestionnaire des questions, le formulaire de questions Drag and Drop, et le Drag and Drop modifiables. Malheureusement, j'ai dû laisser de côté les questions de type texte à trou, questions à développement et les questions à choix multiples car je ne trouvais pas comment les adapter à mes goûts. De même, je n'ai même pas eu le temps de chercher comment mettre en œuvre la fonctionnalité d'imprimer les quiz créés avec une mise en page automatique.
 
