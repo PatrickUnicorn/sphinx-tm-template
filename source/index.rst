@@ -18,7 +18,7 @@ Développement de composants Web afin de créer des quiz interactifs
     chapitre-05.md
     chapitre-06.md
     conclusion.md
-    webographie.md
+    references.rst
     remerciement.md
     declaration-honneur.md
     sidebar.md

@@ -1,6 +1,6 @@
 ## Deuxième Qcm à voir le jour 
 
-- déjà un peu plus libre même si l'on ne peut pas créer ses propres questions à moins de les modifier dans le code en lui-même mais permet de revenir à la question d'antérieur
+- Ce composant est un peu plus flexible, même si l'on ne peut pas créer ses propres questions sans les modifier directement dans le code. Il permet toutefois de revenir à la question précédente.
 
 ```{code-block}
 <template>

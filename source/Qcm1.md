@@ -1,6 +1,6 @@
 ## Premier Qcm 
 
-- c'était mon premier composant en rapport au type de questions et bien qu'il fonctionnait il était trop restrictif étant donné que c'était un composant fixe sans possibilité de changer les questions depuis la page web
+— C'était mon premier composant lié aux types de questions et, bien qu'il fonctionnait, il était trop restrictif, étant donné qu'il s'agissait d'un composant fixe sans possibilité de modifier les questions depuis la page web.
 
 ```{code-block}
 <script setup>
